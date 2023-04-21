@@ -77,7 +77,6 @@ import time
 #test change
 
 t0 = time.perf_counter()
-print(t0)
 
 # Get the date of yesterday
 yesterday = datetime.date.today() - datetime.timedelta(days=1)
@@ -164,6 +163,7 @@ for dirpath, dirnames, filenames in os.walk(destination_folder):
         if "no2" in filename:
             new_filename = filename.replace("no2", "_NOAA-18") 
             os.rename(os.path.join(dirpath, filename), os.path.join(dirpath, new_filename))
+
 
 t1 = time.perf_counter()
 deltaT = round(t1-t0, 3)
