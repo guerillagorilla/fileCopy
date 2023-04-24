@@ -74,7 +74,6 @@ import os
 import shutil
 import datetime
 import time
-#test change
 
 t0 = time.perf_counter()
 
@@ -148,7 +147,7 @@ for dirpath, dirnames, filenames in os.walk(destination_folder):
             new_filename = filename.replace("noaz", "NOAA-SIM") 
             os.rename(os.path.join(dirpath, filename), os.path.join(dirpath, new_filename))
         if "srl1" in filename:
-            new_filename = filename.replace("srl1", "SERAL-1") 
+            new_filename = filename.replace("srl1", "SERAL-1")   
             os.rename(os.path.join(dirpath, filename), os.path.join(dirpath, new_filename))
         if "gaz1" in filename:
             new_filename = filename.replace("gaz1", "GAZELLE-1") 
