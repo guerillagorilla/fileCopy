@@ -162,8 +162,12 @@ for dirpath, dirnames, filenames in os.walk(destination_folder):
         if "no2" in filename:
             new_filename = filename.replace("no2", "_NOAA-18") 
             os.rename(os.path.join(dirpath, filename), os.path.join(dirpath, new_filename))
-
-
+        try:
+            if "dmp" in filename:
+                os.unlink(os.path.join(dirpath, filename))
+        except FileNotFoundError:  
+            pass
+        
 t1 = time.perf_counter()
 deltaT = round(t1-t0, 3)
 print(f'Exectution took {deltaT} seconds')
