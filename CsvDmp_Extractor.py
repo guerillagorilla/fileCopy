@@ -9,7 +9,7 @@ csv_file_paths = glob.glob(folder_path)[0]
 for csv_file_path in csv_file_paths:
     print(f'Opening {csv_file_path}')   
     #df = pd.read_csv(csv_file_path, header=41, index_col='NDX')
-    df = pd.read_csv(csv_file_path)
+    #df = pd.read_csv(csv_file_path)
 
     # # df = df[df['PASS/FAIL'] == 'PASS']
     # # #print(df)
