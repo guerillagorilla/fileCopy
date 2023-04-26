@@ -93,6 +93,16 @@ if not os.path.exists(destination_folder):
 def exclude_folders_func(folder, files):
     return [f for f in files if any(exclude_folder in os.path.join(folder, f) for exclude_folder in exclude_folders)]
 
+def delete_dmp_files(directory):
+    #Recursively delete any file with a .dmp filename in /home/satops/EXPORT and subdirectories.
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.endswith(".dmp"):
+                os.remove(os.path.join(root, file))
+                print(f"Deleted {os.path.join(root, file)}")
+        for dir in dirs:
+            delete_dmp_files(os.path.join(root, dir))
+
 # Iterates recursively through all source_folder directories and files and returns three values: 
 #   current foldername, list of subfolders and list if files all in the current folder  
 #   The code then creates a new list of subfolders that excludes the exclude_folders using list comprehension 
@@ -111,15 +121,15 @@ for foldername, subfolders, filenames in os.walk(source_folder):
             shutil.copy2(source_file, destination_file)
             os.utime(destination_file, (mtime, mtime))
 
-        # Example tests to run to validte mtime comparisons if current date is 20230420
+        # Example tests to run to validte mtime comparisons if current date is 20230426
         # Earlier today - No Copy
-        # find /home/gorilla/fileCopy/folderStart -exec touch -t 202304200000 {} \;
+        # find /home/gorilla/fileCopy/folderStart -exec touch -t 202304260000 {} \;
         # One days ago - Copy
-        # find /home/gorilla/fileCopy/folderStart -exec touch -t 202304192359 {} \;
+        # find /home/gorilla/fileCopy/folderStart -exec touch -t 202304252359 {} \;
         # Two days ago - Copy
-        # find /home/gorilla/fileCopy/folderStart -exec touch -t 202304180000 {} \;
+        # find /home/gorilla/fileCopy/folderStart -exec touch -t 202304240000 {} \;
         # Three days ago - No Copy
-        # find /home/gorilla/fileCopy/folderStart -exec touch -t 202304172359 {} \; 
+        # find /home/gorilla/fileCopy/folderStart -exec touch -t 202304232359 {} \; 
 
 # Then renames the files copied
 for dirpath, dirnames, filenames in os.walk(destination_folder):
@@ -162,12 +172,14 @@ for dirpath, dirnames, filenames in os.walk(destination_folder):
         if "no2" in filename:
             new_filename = filename.replace("no2", "_NOAA-18") 
             os.rename(os.path.join(dirpath, filename), os.path.join(dirpath, new_filename))
-        try:
-            if "dmp" in filename:
-                os.unlink(os.path.join(dirpath, filename))
-        except FileNotFoundError:  
-            pass
-        
+        # try:
+        #     if "dmp" in filename:
+        #         os.unlink(os.path.join(dirpath, filename))
+        # except FileNotFoundError:  
+        #     pass
+
+delete_dmp_files(destination_folder)
+
 t1 = time.perf_counter()
 deltaT = round(t1-t0, 3)
 print(f'Exectution took {deltaT} seconds')
