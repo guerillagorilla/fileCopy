@@ -1,9 +1,0 @@
-import glob
-
-folder_path = 'folderEnd/*/DUMP/*.csv'
-
-csv_file_paths = glob.glob(folder_path)[0]
-# filetoRead = 'HFS_20230406191801_noa1_469 - HFS_20230406191801_noa1_469.csv'
-
-for csv_file_path in csv_file_paths: 
-    print(csv_file_path) 
